@@ -25,22 +25,23 @@ xhr.onload = () => {
 };   
 xhr.send();
 
-fetch('https://jsonplaceholder.typicode.com/users')
-.then(response =>{
-    return response.json();
-})
-.then(responseData =>{
-    let user = responseData;
-    let lenUser = user.length;
-    let cumUser = '<ul>';
-    for(let i=0; i<lenUser ; i++){
-        user.sort( function( a, b ) {
-            return a.username.length - b.username.length;
-        });
-        cumUser += '<li>'+ user[i].username + '</li>';
-    }
-    console.log(cumUser);
-    cumUser += '</ul>'
-    postUser.innerHTML = cumUser;
-
-});
+const promise = new Promise(resolve =>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response =>{
+        return response.json();
+    })
+    .then(responseData =>{
+        let user = responseData;
+        let lenUser = user.length;
+        let cumUser = '<ul>';
+        for(let i=0; i<lenUser ; i++){
+            user.sort( function( a, b ) {
+                return a.username.length - b.username.length;
+            });
+            cumUser += '<li>'+ user[i].username + '</li>';
+        }
+        console.log(cumUser);
+        cumUser += '</ul>'
+        resolve(postUser.innerHTML = cumUser);
+    });
+});    
